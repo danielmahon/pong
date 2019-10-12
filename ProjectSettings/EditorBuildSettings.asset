@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Pong/Scenes/Boot.unity
+    guid: 8119dae86d4f44a52a8392e34e0cd7af
+  - enabled: 1
+    path: Assets/Pong/Scenes/Game.unity
+    guid: 5201e119df93f433f8982b9662bd277d
+  m_configObjects: {}
