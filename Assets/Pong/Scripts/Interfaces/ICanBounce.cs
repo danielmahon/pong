@@ -3,8 +3,8 @@ using UnityEngine;
 namespace Pong {
 
   public interface ICanBounce {
-    Rigidbody2D rigidBody2D { get; }
-    float AddSpeed(float amount);
+    GameObject gameObject { get; }
+    Rigidbody2D rb2D { get; }
   }
 
 }

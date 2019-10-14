@@ -4,31 +4,35 @@ using UnityEngine.Assertions;
 namespace Pong {
 
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public class BallEntity : MonoBehaviour, ICanBounce {
+    public class BallEntity : MonoBehaviour {
 
         [SerializeField]
-        private BounceSettings settings = null;
+        private Settings settings = null;
 
         private float speed;
+        private Vector2 lastFrameVelocity;
+        private Rigidbody2D rb2D;
 
-        public Rigidbody2D rigidBody2D { get; private set; }
+        public void SetSpeed(float newSpeed) {
+            lastFrameVelocity = lastFrameVelocity * (newSpeed / speed);
+            speed = newSpeed;
+        }
 
         void Awake() {
-            Assert.IsNotNull(settings, "Missing BounceSettings!");
-
-            rigidBody2D = GetComponent<Rigidbody2D>();
+            Assert.IsNotNull(settings, "Missing Settings!");
+            rb2D = GetComponent<Rigidbody2D>();
             // Set initial speed and velocity
-            speed = 4f;
-            rigidBody2D.velocity = new Vector2(0.5f, 0.5f) * speed;
+            speed = 5f;
+            rb2D.velocity = new Vector2(0.5f, 0.5f) * speed;
         }
 
-        public void OnTriggerEnter2D(Collider2D other) {
-            Logic.Bounce.Process(this, other);
+        private void Update() {
+            lastFrameVelocity = rb2D.velocity;
         }
 
-        public float AddSpeed(float amount) {
-            speed = Mathf.Clamp(speed + amount, 0, settings.maxSpeed);
-            return speed;
+        public void OnCollisionEnter2D(Collision2D collision) {
+            Logic.Bounce.Process(rb2D, collision, lastFrameVelocity);
         }
+
     }
 }
